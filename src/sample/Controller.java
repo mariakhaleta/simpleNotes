@@ -1,5 +1,6 @@
 package sample;
 
+import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,36 +9,23 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Controller {
 
     @FXML
-    private TextField notesTitle;
+    private JFXTextField notesTitle;
 
     @FXML
-    private RadioButton goalButton;
+    private JFXTextArea notesField;
 
     @FXML
-    private TextArea notesField;
+    private JFXButton backButton;
 
     @FXML
-    private Button backButton;
-
-    @FXML
-    private Button buttonAddNotes;
-
-    @FXML
-    private ToggleGroup radioGroup;
-
-    @FXML
-    private RadioButton meetButton;
-
-    @FXML
-    private RadioButton alertButton;
-
-
-    private boolean okClicked = false;
-
     private Stage dialogStage;
 
     public void setDialogStage(Stage dialogStage) {
@@ -46,26 +34,26 @@ public class Controller {
 
     @FXML
     void initialize() {
-        alertButton.setToggleGroup(radioGroup);
-        goalButton.setToggleGroup(radioGroup);
-        meetButton.setToggleGroup(radioGroup);
+
     }
 
     @FXML
     private void handleOk() throws IOException {
 
         if (isInputValid()) {
+            Note mNote = new Note(notesTitle.getText(), notesField.getText(), "Заметка");
+                ListNotes.notes.add(mNote);
 
-            if(alertButton.isSelected()) {
-                Note mNote = new Note(notesTitle.getText(), notesField.getText(), "Cрочное");
-                ListNotes.notes.add(mNote);
-            }else if (goalButton.isSelected()){
-                Note mNote = new Note(notesTitle.getText(), notesField.getText(), "Goal");
-                ListNotes.notes.add(mNote);
-            }else if (meetButton.isSelected()){
-                Note mNote = new Note(notesTitle.getText(), notesField.getText(), "Встреча");
-                ListNotes.notes.add(mNote);
-            }
+            JSONObject jo = new JSONObject();
+            jo.put("Title", notesTitle.getText());
+            jo.put("Field", notesField.getText());
+            jo.put("Tag", "Заметка");
+            PrintWriter pw = new PrintWriter("JSONNote.json");
+            pw.write(jo.toJSONString());
+
+            pw.flush();
+            pw.close();
+
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));

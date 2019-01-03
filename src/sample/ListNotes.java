@@ -1,5 +1,6 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,7 +39,10 @@ public class ListNotes {
     private Button addNewCheckLIstButton;
 
     @FXML
-    private Button addNewNotesButton;
+    private JFXButton deleteButton;
+
+    @FXML
+    private JFXButton addNewNotesButton;
 
     @FXML
     private Label titleViewShow;
@@ -46,12 +50,19 @@ public class ListNotes {
     @FXML
     private Label noteShow;
 
+    @FXML
+    private JFXButton addNewMeetButton;
+
+    @FXML
+    private JFXButton addNewGoalButton;
+
     public ObservableList<Note> getNotesData() {
         return notes;
     }
 
     @FXML
     void initialize() {
+
      //   init();
         notesTitle.setCellValueFactory(new PropertyValueFactory<Note, String>("titleNote"));
         tagView.setCellValueFactory(new PropertyValueFactory<Note, String>("tag"));
@@ -61,7 +72,6 @@ public class ListNotes {
 
         notesView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showNoteDetails(newValue));
-
     }
 
     @FXML
@@ -106,6 +116,40 @@ public class ListNotes {
         stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Создание заметки");
+        stage.setScene(new Scene(root1));
+        stage.show();
+
+        Controller controller = fxmlLoader.getController();
+        controller.setDialogStage(stage);
+    }
+
+    @FXML
+    void handleNewMeet(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) addNewMeetButton.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createMeet.fxml"));
+        Parent root1 = (Parent)fxmlLoader.load();
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Создание встречи");
+        stage.setScene(new Scene(root1));
+        stage.show();
+
+        Controller controller = fxmlLoader.getController();
+        controller.setDialogStage(stage);
+    }
+
+    @FXML
+    void handleNewGoal(ActionEvent event) throws IOException {
+
+        Stage stage = (Stage) addNewGoalButton.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createGoals.fxml"));
+        Parent root1 = (Parent)fxmlLoader.load();
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Создание цели");
         stage.setScene(new Scene(root1));
         stage.show();
 

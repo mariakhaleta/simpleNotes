@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CreateGoalsController">
+   <children>
+      <JFXButton fx:id="addButton" layoutX="178.0" layoutY="450.0" onAction="#handleOk" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: #050c9d;" text="Добавить" />
+      <JFXButton fx:id="backButton" layoutX="178.0" layoutY="26.0" onAction="#handleCancel" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: #050c9d;" text=" Вернуться к заметкам" />
+      <JFXCheckBox fx:id="achiveGoal" layoutX="37.0" layoutY="399.0" text="Выполнение цели" />
+      <JFXTextField fx:id="goalsTitle" layoutX="37.0" layoutY="84.0" prefHeight="35.0" prefWidth="510.0" promptText="Название заметки" />
+      <JFXTextArea fx:id="goalsField" layoutX="37.0" layoutY="146.0" prefHeight="219.0" prefWidth="510.0" promptText="Заметка" />
+   </children>
+</AnchorPane>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,22 +13,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ListNotes">
+<AnchorPane prefHeight="500.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ListNotes">
    <children>
-      <Label layoutX="216.0" layoutY="23.0" text="Заметки" textFill="#050c9d">
+      <Label layoutX="290.0" layoutY="17.0" text="Заметки" textFill="#050c9d">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="addNewNotesButton" layoutX="62.0" layoutY="455.0" maxHeight="30.0" mnemonicParsing="false" onAction="#handleNewNote" prefHeight="30.0" prefWidth="180.0" text="Создать новую заметку" />
-      <TableView fx:id="notesView" layoutX="16.0" layoutY="85.0" prefHeight="352.0" prefWidth="272.0">
+      <TableView fx:id="notesView" layoutX="55.0" layoutY="89.0" prefHeight="352.0" prefWidth="272.0">
          <columns>
             <TableColumn fx:id="notesTitle" prefWidth="169.0" text=" Название" />
             <TableColumn fx:id="tagView" prefWidth="101.0" text="Tag" />
          </columns>
       </TableView>
-      <Button fx:id="deleteButton" layoutX="362.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleDeleteNote" prefHeight="30.0" prefWidth="180.0" text="Удалить" />
-      <Pane layoutX="313.0" layoutY="110.0" prefHeight="327.0" prefWidth="278.0" style="-fx-background-color: #6c96ff;">
+      <Pane layoutX="369.0" layoutY="114.0" prefHeight="327.0" prefWidth="278.0">
          <children>
             <Label fx:id="noteShow" layoutX="9.0" layoutY="15.0" text="Заметка">
                <font>
@@ -32,14 +35,18 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="313.0" layoutY="82.0" prefHeight="28.0" prefWidth="278.0" style="-fx-background-color: #050c9d;">
+      <Pane layoutX="369.0" layoutY="86.0" prefHeight="28.0" prefWidth="278.0">
          <children>
-            <Label fx:id="titleViewShow" layoutX="9.0" layoutY="-2.0" prefHeight="31.0" prefWidth="253.0" text="Ничего не выбрано" textAlignment="RIGHT" textFill="WHITE">
+            <Label fx:id="titleViewShow" layoutX="1.0" layoutY="-2.0" prefHeight="31.0" prefWidth="279.0" text="Ничего не выбрано" textFill="#050c9d">
                <font>
-                  <Font size="16.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
+      <JFXButton fx:id="addNewNotesButton" layoutX="14.0" layoutY="456.0" onAction="#handleNewNote" prefHeight="29.0" prefWidth="174.0" style="-fx-border-color: #050c9d;" text="Создать новую заметку" />
+      <JFXButton fx:id="deleteButton" layoutX="581.0" layoutY="456.0" onAction="#handleDeleteNote" prefHeight="29.0" prefWidth="85.0" style="-fx-background-color: #FA8072;" text="Удалить" textFill="WHITE" />
+      <JFXButton fx:id="addNewMeetButton" layoutX="201.0" layoutY="456.0" onAction="#handleNewMeet" prefHeight="29.0" prefWidth="181.0" style="-fx-border-color: #008080;" text="Создать новую встречу" />
+      <JFXButton fx:id="addNewGoalButton" layoutX="393.0" layoutY="456.0" onAction="#handleNewGoal" prefHeight="29.0" prefWidth="180.0" style="-fx-border-color: #FFFF00;" text="Создать новую цель" />
    </children>
 </AnchorPane>

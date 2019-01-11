@@ -25,7 +25,7 @@ public class Note {
         return tag;
     }
 
-    public void setTag(String Tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 
@@ -50,6 +50,7 @@ public class Note {
         return "Note{" +
                 "TitleNote='" + titleNote + '\'' +
                 ", FieldNote='" + fieldNote + '\'' +
+                ", Tag='" + tag + '\'' +
                 '}';
     }
 

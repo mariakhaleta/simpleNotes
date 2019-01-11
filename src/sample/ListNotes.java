@@ -1,5 +1,11 @@
 package sample;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,15 +20,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class ListNotes {
 
     @FXML
     private AnchorPane content;
-
-    @FXML
-    public static ObservableList<Note> notes = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<Note, String> notesTitle;
@@ -56,14 +61,18 @@ public class ListNotes {
     @FXML
     private JFXButton addNewGoalButton;
 
+    @FXML
+    public static ObservableList<Note> notes = FXCollections.observableArrayList();
+
     public ObservableList<Note> getNotesData() {
         return notes;
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
 
-     //   init();
+        run();
+
         notesTitle.setCellValueFactory(new PropertyValueFactory<Note, String>("titleNote"));
         tagView.setCellValueFactory(new PropertyValueFactory<Note, String>("tag"));
         notesView.setItems(notes);
@@ -74,9 +83,31 @@ public class ListNotes {
                 (observable, oldValue, newValue) -> showNoteDetails(newValue));
     }
 
+
+
+    public void run() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+
+            JsonFactory f = new JsonFactory();
+            List<NoteMeet> lastNote = null;
+            JsonParser jp = f.createJsonParser(new File("/Users/MariaKhaleta/Desktop/note/JSONNote.json"));
+            TypeReference<List<Note>> tRef = new TypeReference<List<Note>>() {};
+            lastNote = mapper.readValue(jp, tRef);
+            for (Note note : lastNote) {
+                ListNotes.notes.add(note);
+            }
+        } catch (JsonGenerationException | JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void handleDeleteNote() {
         int selectedIndex = notesView.getSelectionModel().getSelectedIndex();
+
         if (selectedIndex >= 0) {
             notesView.getItems().remove(selectedIndex);
         } else {
@@ -118,6 +149,7 @@ public class ListNotes {
         stage.setTitle("Создание заметки");
         stage.setScene(new Scene(root1));
         stage.show();
+        notes.clear();
 
         Controller controller = fxmlLoader.getController();
         controller.setDialogStage(stage);
@@ -135,9 +167,10 @@ public class ListNotes {
         stage.setTitle("Создание встречи");
         stage.setScene(new Scene(root1));
         stage.show();
+        notes.clear();
 
-        Controller controller = fxmlLoader.getController();
-        controller.setDialogStage(stage);
+        CreateMeetController createMeetController = fxmlLoader.getController();
+        createMeetController.setDialogStage(stage);
     }
 
     @FXML
@@ -152,6 +185,7 @@ public class ListNotes {
         stage.setTitle("Создание цели");
         stage.setScene(new Scene(root1));
         stage.show();
+        notes.clear();
 
         Controller controller = fxmlLoader.getController();
         controller.setDialogStage(stage);

@@ -1,5 +1,8 @@
 package sample;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
-import java.io.PrintWriter;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Set;
+
+import org.json.JSONException;
 
 public class Controller {
 
@@ -38,21 +44,28 @@ public class Controller {
     }
 
     @FXML
-    private void handleOk() throws IOException {
+    private void handleOk() throws IOException, JSONException {
 
         if (isInputValid()) {
-            Note mNote = new Note(notesTitle.getText(), notesField.getText(), "Заметка");
-                ListNotes.notes.add(mNote);
 
-            JSONObject jo = new JSONObject();
-            jo.put("Title", notesTitle.getText());
-            jo.put("Field", notesField.getText());
-            jo.put("Tag", "Заметка");
-            PrintWriter pw = new PrintWriter("JSONNote.json");
-            pw.write(jo.toJSONString());
+            try{
+                String text = new String(Files.readAllBytes(Paths.get("JSONNote.json")), StandardCharsets.UTF_8);
+                ObjectMapper m = new ObjectMapper();
+                Set<Note> not = m.readValue(text, new TypeReference<Set<Note>>() {});
+                not.add(new Note(notesTitle.getText(), notesField.getText(), "Заметка"));
+                //System.out.println(not);
 
-            pw.flush();
-            pw.close();
+                FileWriter pw = new FileWriter("JSONNote.json", false);
+                Gson gson = new Gson();
+                String jsonNote  = gson.toJson(not);
+                pw.write(jsonNote);
+                pw.flush();
+                pw.close();
+
+            }
+            catch(Exception ex){
+                System.out.println(ex.toString());
+            }
 
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.close();
@@ -69,10 +82,10 @@ public class Controller {
         String errorMessage = "";
 
         if (notesTitle.getText() == null || notesTitle.getText().length() == 0) {
-            errorMessage += "No valid first name!\n";
+            errorMessage += "No items!\n";
         }
         if (notesField.getText() == null || notesField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n";
+            errorMessage += "No items!\n";
         }
 
         if (errorMessage.length() == 0) {
